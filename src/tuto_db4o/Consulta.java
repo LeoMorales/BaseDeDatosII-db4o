@@ -1,8 +1,12 @@
 package tuto_db4o;
 
+import java.util.List;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 
 //import java.util. Scanner;
 
@@ -21,19 +25,45 @@ public class Consulta{
     	try{
     		storeFirstPilot(db);
             storeSecondPilot(db);
+            
+            //Consulta nativa:
+            List <Pilot> pilots = db.query ( new Predicate<Pilot>  () {
+
+                public boolean match (Pilot pilot) {
+
+                          return pilot.getPoints() == 100;
+
+                }
+
+            } );
+            System.out.println("Recuperado con consulta nativa: "+pilots);
+            
+            //Consulta SODA:
+            Query query = db.query();
+            query.constrain (Pilot.class);
+            Query pointQuery = query.descend("points");
+            query.descend("name").constrain("Rubens Barrichello")
+                     .or (pointQuery.constrain (new Integer (99)).greater()
+                               .and (pointQuery.constrain(new Integer(199)).smaller() ));
+            ObjectSet<Object>  result = query.execute();
+
+            System.out.println("Resultado consulta SODA:");
+            listResult (result);
+            
             retrieveAllPilots(db);
             retrievePilotByName(db);
             retrievePilotByExactPoints(db);
             updatePilot(db);
             deleteFirstPilotByName(db);
             deleteSecondPilotByName(db);
+            
 
     	}
     	finally{
     		db.close();
     	}
 	}
-
+   
     public static void listResult(ObjectSet<Object> result){
         System.out.println(result.size());
         while(result.hasNext()) {
