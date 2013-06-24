@@ -52,4 +52,8 @@ public class Persona {
 		this.sexo = sexo;
 	}
 	
+	@Override
+	public String toString() {
+		return "nombre y apellido: "+this.getNombre()+" "+this.getApellido()+"\t| dni: "+this.getDni()+"\t| fecha nac.: "+this.getFechaNacimiento().toString();
+	}
 }

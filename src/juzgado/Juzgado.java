@@ -46,6 +46,6 @@ public class Juzgado {
 
 	@Override
 	public String toString() {
-		return "fuero: "+this.getFuero()+"| juez: "+this.getJuez();
+		return "fuero: "+this.getFuero()+"\t| juez: "+this.getJuez();
 	}
 }

@@ -1,17 +1,17 @@
 package juzgado;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Causa {
 	
 	private Juzgado juzgado;
 	private Integer nroExpediente;
-	private List<Persona> imputados;
-	private List<Persona> testigos;
+	private ArrayList<Persona> imputados;
+	private ArrayList<Persona> testigos;
 	private String sentencia;
 	
 	//Constructor:
-	public Causa(Juzgado juzgado, Integer nroExpediente, List<Persona> imputados, List<Persona> testigos, String sentencia) {
+	public Causa(Juzgado juzgado, Integer nroExpediente, ArrayList<Persona> imputados, ArrayList<Persona> testigos, String sentencia) {
 		// TODO Auto-generated constructor stub
 		this.juzgado = juzgado;
 		this.nroExpediente = nroExpediente;
@@ -33,16 +33,16 @@ public class Causa {
 	public void setNroExpediente(Integer nroExpediente) {
 		this.nroExpediente = nroExpediente;
 	}
-	public List<Persona> getImputados() {
+	public ArrayList<Persona> getImputados() {
 		return imputados;
 	}
-	public void setImputados(List<Persona> imputados) {
+	public void setImputados(ArrayList<Persona> imputados) {
 		this.imputados = imputados;
 	}
-	public List<Persona> getTestigos() {
+	public ArrayList<Persona> getTestigos() {
 		return testigos;
 	}
-	public void setTestigos(List<Persona> testigos) {
+	public void setTestigos(ArrayList<Persona> testigos) {
 		this.testigos = testigos;
 	}
 	public String getSentencia() {
@@ -52,5 +52,9 @@ public class Causa {
 		this.sentencia = sentencia;
 	}
 
+	@Override
+	public String toString() {
+		return  "expediente: "+this.getNroExpediente()+" juzgado: ["+this.getJuzgado()+"] sentencia: "+this.getSentencia();
+	}
 
 }
