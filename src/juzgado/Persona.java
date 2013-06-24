@@ -18,4 +18,36 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 		this.sexo = sexo;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+	public String getApellido() {
+		return apellido;
+	}
+	public Integer getDni() {
+		return dni;
+	}
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	public String getSexo() {
+		return sexo;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	public void setDni(Integer dni) {
+		this.dni = dni;
+	}
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	
 }

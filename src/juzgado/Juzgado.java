@@ -16,5 +16,30 @@ public class Juzgado {
 		this.domicilio = domicilio;
 		this.localidad = localidad;
 	}
-	
+
+	public TipoFuero getFuero() {
+		return fuero;
+	}
+	public Juez getJuez() {
+		return juez;
+	}
+	public String getDomicilio() {
+		return domicilio;
+	}
+	public String getLocalidad() {
+		return localidad;
+	}
+	public void setFuero(TipoFuero fuero) {
+		this.fuero = fuero;
+	}
+	public void setJuez(Juez juez) {
+		this.juez = juez;
+	}
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
+	}
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
 }
