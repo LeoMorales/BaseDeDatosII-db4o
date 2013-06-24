@@ -9,6 +9,7 @@ public class Juzgado {
 	private String domicilio;
 	private String localidad;
 	
+	//Constructor:
 	public Juzgado(TipoFuero fuero, Juez juez, String domicilio, String localidad) {
 		// Crea un juzgado.
 		this.fuero = fuero;
@@ -17,6 +18,7 @@ public class Juzgado {
 		this.localidad = localidad;
 	}
 
+	//Getters and Setters:
 	public TipoFuero getFuero() {
 		return fuero;
 	}
@@ -42,4 +44,8 @@ public class Juzgado {
 		this.localidad = localidad;
 	}
 
+	@Override
+	public String toString() {
+		return "fuero: "+this.getFuero()+"| juez: "+this.getJuez();
+	}
 }

@@ -10,8 +10,9 @@ public class Persona {
 	private Date fechaNacimiento;
 	private String sexo;
 	
+	//Constructor:
 	public Persona(String nombre, String apellido, Integer dni, Date fechaNacimiento, String sexo) {
-	// TODO Auto-generated constructor stub
+	// Crea una nueva persona
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
@@ -19,6 +20,7 @@ public class Persona {
 		this.sexo = sexo;
 	}
 
+	//Getters and Setters:
 	public String getNombre() {
 		return nombre;
 	}

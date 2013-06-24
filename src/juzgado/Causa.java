@@ -10,6 +10,7 @@ public class Causa {
 	private List<Persona> testigos;
 	private String sentencia;
 	
+	//Constructor:
 	public Causa(Juzgado juzgado, Integer nroExpediente, List<Persona> imputados, List<Persona> testigos, String sentencia) {
 		// TODO Auto-generated constructor stub
 		this.juzgado = juzgado;
@@ -19,6 +20,7 @@ public class Causa {
 		this.sentencia = sentencia;
 	}
 
+	//Getters and Setters:
 	public Juzgado getJuzgado() {
 		return juzgado;
 	}

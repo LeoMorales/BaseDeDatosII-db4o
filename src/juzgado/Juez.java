@@ -6,6 +6,7 @@ public class Juez {
 	private Integer matriculaProfesional;
 	private String trayectoria;
 	
+	//Constructor:
 	public Juez(String nombre, Integer matriculaProfesional, String trayectoria) {
 		// Crea un nuevo juez.
 		this.nombre = nombre;
@@ -13,6 +14,7 @@ public class Juez {
 		this.trayectoria = trayectoria;
 	}
 
+	//Getters and Setters:
 	public String getNombre() {
 		return nombre;
 	}
@@ -31,5 +33,9 @@ public class Juez {
 	public void setTrayectoria(String trayectoria) {
 		this.trayectoria = trayectoria;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "nombre: "+this.getNombre()+"| matricula: "+this.getMatriculaProfesional();
+	}
 }
