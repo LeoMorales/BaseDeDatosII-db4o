@@ -12,12 +12,19 @@ public class Causa {
 	
 	//Constructor:
 	public Causa(Juzgado juzgado, Integer nroExpediente, ArrayList<Persona> imputados, ArrayList<Persona> testigos, String sentencia) {
-		// TODO Auto-generated constructor stub
 		this.juzgado = juzgado;
 		this.nroExpediente = nroExpediente;
 		this.imputados = imputados;
 		this.testigos = testigos;
 		this.sentencia = sentencia;
+		//TODO: Es esto correcto?
+		//Agregarse ella misma a la coleccion de Causas del juzgado. Existe una doble referncia. Motivo: Facilita la consulta nro2.
+		//Aclaracion: juzgado puede ser null si se trata de un QBE.
+		if (juzgado != null) {
+			if(this.getJuzgado().getCausas().add(this)==true)
+				System.out.println("Soy Juzgado:"+this.getJuzgado()+"agregue causa: "+ this.toString()+"tengo en total: "+this.getJuzgado().getCausas().size()+" causa/s!");
+			
+		}		
 	}
 
 	//Getters and Setters:
@@ -54,7 +61,7 @@ public class Causa {
 
 	@Override
 	public String toString() {
-		return  "expediente: "+this.getNroExpediente()+" juzgado: ["+this.getJuzgado()+"] sentencia: "+this.getSentencia();
+		return  "Causa { expediente: "+this.getNroExpediente()+" juzgado: ["+this.getJuzgado()+"] sentencia: "+this.getSentencia() + " }";
 	}
 
 }

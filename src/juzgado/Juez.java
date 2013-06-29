@@ -36,6 +36,6 @@ public class Juez {
 
 	@Override
 	public String toString() {
-		return "nombre: "+this.getNombre()+"\t| matricula: "+this.getMatriculaProfesional();
+		return "Juez{ nombre: "+this.getNombre()+"\t| matricula: "+this.getMatriculaProfesional()+ " }";
 	}
 }

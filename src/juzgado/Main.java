@@ -1,8 +1,6 @@
 package juzgado;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import com.db4o.Db4oEmbedded;
@@ -18,9 +16,12 @@ public class Main {
 	public static void main(String[] args) {
 		
 		ObjectContainer db= Db4oEmbedded.openFile("BDJuzgado.db4o");
+		ArrayList<Causa> causasMasDeDosImputados;
 		try{
-			generarInstancias(db);
-			recuperarTodasLasCausas(db);
+			//generarInstancias(db);
+			causasMasDeDosImputados = recuperarTodasLasCausas(db);
+			mostrarCausas(causasMasDeDosImputados);
+			consultaJuzgadosCivil(db);
 			
     	}
     	finally{
@@ -29,115 +30,66 @@ public class Main {
 
 	}
 	
-    public static void recuperarTodasLasCausas(ObjectContainer db) {
+    private static void consultaJuzgadosCivil(ObjectContainer db) {
+    	//prototipo: todos los Juzgados del fuero civil:
+    	Juzgado protoJuzgado = new Juzgado(Juzgado.TipoFuero.civil, null, null, null);
+    	ObjectSet<Object> result = db.queryByExample(protoJuzgado);
+    	listResult(result);
+    	
+    }    
+
+    private static boolean tieneCausasValidas(Juzgado unJuzgado) {
+		return unJuzgado.poseeCausaConSentencia() && unJuzgado.poseeCausaSinSentencia();
+	}
+
+	public static void listResult(ObjectSet<Object> result){
+        System.out.println("\nCantidad de Juzgados con fuero civil encontrados:"+result.size());
+        Juzgado unJuzgado;
+        while(result.hasNext()) {
+        	unJuzgado = (Juzgado) result.next();
+        	//if (tieneCausasValidas(unJuzgado)) {
+        	System.out.println(unJuzgado.toString()+"cantidad de causas: "+unJuzgado.getCausas().size());
+    		for (int i = 0; i < unJuzgado.getCausas().size(); i++) {
+    			System.out.println("\tCausas del juzgado:");
+    			System.out.println("\t"+unJuzgado.getCausas().get(i));
+			}
+        	//}
+        }
+    }
+
+	public static ArrayList<Causa> recuperarTodasLasCausas(ObjectContainer db) {
     	Causa protoCausa = new Causa(null, null, null, null, null);
         ObjectSet<Object> result = db.queryByExample(protoCausa);
-        //listResultOC(result);
         //filtro...
         ArrayList<Causa> causas = causasMasDeDosImputados(result);
-        
-        listResult(causas);
+        return(causas);
     }
     
     public static ArrayList<Causa> causasMasDeDosImputados(ObjectSet<Object> causas) {
-        
-    	Causa unaCausa;
-    	ArrayList<Causa> causasRet = new ArrayList<Causa>();
+        Causa unaCausa;
+        ArrayList<Causa> causasRet = new ArrayList<Causa>();
         while (causas.hasNext()) {
 			 unaCausa = (Causa) causas.next();
 			 if (unaCausa.getImputados().size() > 1) {
 				causasRet.add(unaCausa);
 			}
-			 
 		}
-
     	return causasRet;
-		
-	}
-
-    public static void listResult(ArrayList<Causa> causas){
-        System.out.println(causas.size());
-        Iterator<Causa> iterador = causas.iterator();
-        
-        while(iterador.hasNext()) {
-            System.out.println(iterador.next().toString());
-        }
     }
+
     
-    public static void listResultOC(ObjectSet<Object> result){
-        System.out.println(result.size());
-        while(result.hasNext()) {
-            System.out.println(result.next());
+    public static void mostrarCausas(ArrayList<Causa> causas){
+        System.out.println("\nCausas con mas de dos imputados:"+causas.size());
+        Iterator<Causa> iterador = causas.iterator();
+        Causa causa;
+        while(iterador.hasNext()) {
+        	causa = iterador.next();
+            System.out.println("\n"+causa.toString());
+            System.out.println("\tDatos de los Imputados:");
+            for (int i = 0; i < causa.getImputados().size(); i++) {
+            	System.out.println("\t"+causa.getImputados().get(i).toString());
+			}
         }
     }
-	
-	public static void generarInstancias(ObjectContainer db) {
-		//generando instancias de jueces:
-		Juez juez1 = new Juez("Delfino German", 1000, "a");
-        db.store(juez1);
-        Juez juez2 = new Juez("Belligoy Federico", 2000, "b");
-        db.store(juez2);
-        Juez juez3 = new Juez("Abal Diego", 3000, "c");
-        db.store(juez3);
-        System.out.println("Jueces creados y almacenados: "+"\n"+juez1 +"\n"+ juez2 + "\n"+juez3);
-
-        //generando instancias de juzgados:
-		Juzgado juzgado1 = new Juzgado(Juzgado.TipoFuero.civil, juez1, "San Martin 1500", "Trelew");
-        db.store(juzgado1);
-        Juzgado juzgado2 = new Juzgado(Juzgado.TipoFuero.comercial, juez2, "Sarmiento 1500", "Trelew");
-        db.store(juzgado2);
-        Juzgado juzgado3 = new Juzgado(Juzgado.TipoFuero.penal, juez3, "Belgrano 1500", "Trelew");
-        db.store(juzgado3);
-        
-        System.out.println("\nJuzgados creados y almacenados: "+"\n"+juzgado1 +"\n"+ juzgado2 + "\n"+juzgado3);
-
-        //generando instancias de personas:
-		Persona persona1 = new Persona("Guillermo", "Urrupia", 30888777, nuevaFechaDesdeString("1989/5/2"), "Masculino");
-		db.store(persona1);
-        
-		Persona persona2 = new Persona("Pablo", "Zavarro", 37555666, nuevaFechaDesdeString("1992/6/2"), "Masculino");
-		db.store(persona2);
-        
-		Persona persona3 = new Persona("Samuel", "Almocacid", 31888777, nuevaFechaDesdeString("1989/7/2"), "Masculino");
-		db.store(persona3);
-        
-		Persona persona4 = new Persona("Emmanuel", "Tominguez", 30888777, nuevaFechaDesdeString("1987/8/2"), "Masculino");
-		db.store(persona4);
-        
-		System.out.println("\nPersonas creadas y almacenadas: "+"\n"+persona1 +"\n"+ persona2+ "\n"+persona3+ "\n"+persona4);
-
-		//generando instancias de causas:
-		ArrayList<Persona> imputados = new ArrayList<Persona>();
-		imputados.add(persona2);
-		imputados.add(persona4);
-		ArrayList<Persona> testigos = new ArrayList<Persona>();
-		testigos.add(persona1);
-		Causa causa1 = new Causa(juzgado1, 0001, imputados, testigos, "Culpables");
-		db.store(causa1);
-
-		//Causa2:
-		
-		ArrayList<Persona> imputados1 = new ArrayList<Persona>();
-		imputados1.add(persona3);
-		
-		Causa causa2 = new Causa(juzgado2, 0002, imputados1, testigos, "");
-		db.store(causa2);
-		
-		//Causa3:
-		Causa causa3 = new Causa(juzgado3, 0003, imputados, testigos, "Inocentes");
-		db.store(causa3);
-
-	}
-	
-	public static Date nuevaFechaDesdeString(String strFecha) {
-	     SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy/MM/dd");
-	     Date fecha = null;
-	     try {
-				fecha = formatoDelTexto.parse(strFecha);
-	     } catch (java.text.ParseException e) {
-				e.printStackTrace();
-	     }
-	     return fecha;
-	}
 	
 }

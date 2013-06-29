@@ -1,0 +1,73 @@
+	public static void generarInstancias(ObjectContainer db) {
+		//generando instancias de jueces:
+		Juez juez1 = new Juez("Delfino German", 1000, "a");
+        db.store(juez1);
+        Juez juez2 = new Juez("Belligoy Federico", 2000, "b");
+        db.store(juez2);
+        Juez juez3 = new Juez("Abal Diego", 3000, "c");
+        db.store(juez3);
+        Juez juez4 = new Juez("Pezzota Mauricio", 4000, "d");
+        db.store(juez4);
+        System.out.println("Jueces creados y almacenados: "+"\n"+juez1 +"\n"+ juez2 + "\n"+juez3+ "\n"+juez4);
+
+        //generando instancias de juzgados:
+		Juzgado juzgado1 = new Juzgado(Juzgado.TipoFuero.civil, juez1, "San Martin 1500", "Trelew");
+        db.store(juzgado1);
+        Juzgado juzgado2 = new Juzgado(Juzgado.TipoFuero.comercial, juez2, "Sarmiento 1500", "Trelew");
+        db.store(juzgado2);
+        Juzgado juzgado3 = new Juzgado(Juzgado.TipoFuero.penal, juez3, "Belgrano 1500", "Trelew");
+        db.store(juzgado3);
+        Juzgado juzgado4 = new Juzgado(Juzgado.TipoFuero.civil, juez4, "Mitre 1500", "Rawson");
+        db.store(juzgado4);
+        
+        System.out.println("\nJuzgados creados y almacenados: "+"\n"+juzgado1 +"\n"+ juzgado2 + "\n"+juzgado3+ "\n"+juzgado4);
+
+        //generando instancias de personas:
+		Persona persoGuille = new Persona("Guillermo", "Urrupia", 30888777, nuevaFechaDesdeString("1989/5/2"), "Masculino");
+		db.store(persoGuille);
+        
+		Persona persoPablo = new Persona("Pablo", "Zavarro", 37555666, nuevaFechaDesdeString("1992/6/2"), "Masculino");
+		db.store(persoPablo);
+        
+		Persona persoSamuel = new Persona("Samuel", "Almocacid", 31888777, nuevaFechaDesdeString("1989/7/2"), "Masculino");
+		db.store(persoSamuel);
+        
+		Persona persoEmma = new Persona("Emmanuel", "Tominguez", 30888777, nuevaFechaDesdeString("1987/8/2"), "Masculino");
+		db.store(persoEmma);
+        
+		System.out.println("\nPersonas creadas y almacenadas: "+"\n"+persoGuille +"\n"+ persoPablo+ "\n"+persoSamuel+ "\n"+persoEmma);
+
+		//generando instancias de causas:
+		ArrayList<Persona> imputados = new ArrayList<Persona>();
+		imputados.add(persoPablo);
+		imputados.add(persoEmma);
+		ArrayList<Persona> testigos = new ArrayList<Persona>();
+		testigos.add(persoGuille);
+		Causa causa1 = new Causa(juzgado1, 0001, imputados, testigos, "Culpables");
+		db.store(causa1);
+
+		//Causa2:
+		
+		ArrayList<Persona> imputados1 = new ArrayList<Persona>();
+		imputados1.add(persoSamuel); //Solo un imputado!
+		
+		Causa causa2 = new Causa(juzgado2, 0002, imputados1, testigos, "");
+		db.store(causa2);
+		
+		//Causa3:
+		Causa causa3 = new Causa(juzgado3, 0003, imputados, testigos, "Inocentes");
+		db.store(causa3);
+		System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3);
+
+	}
+	
+	public static Date nuevaFechaDesdeString(String strFecha) {
+	     SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy/MM/dd");
+	     Date fecha = null;
+	     try {
+				fecha = formatoDelTexto.parse(strFecha);
+	     } catch (java.text.ParseException e) {
+				e.printStackTrace();
+	     }
+	     return fecha;
+	}

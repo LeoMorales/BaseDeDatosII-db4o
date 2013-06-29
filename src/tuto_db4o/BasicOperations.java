@@ -11,7 +11,7 @@ public class BasicOperations {
 	 * 
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		ObjectContainer container = Db4oEmbedded.openFile("databaseDrivers.db4o");
 		try
 		{
