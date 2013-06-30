@@ -25,7 +25,7 @@ public class Main {
 			consultaJuzgadosCivil(db);
 			
 			juzgadosMasDeDosCausasConSentencias(db);
-			
+			juzgadosSinMasDeDosCausasConSentencias(db);
     	}
     	finally{
     		db.close();
@@ -145,6 +145,48 @@ public class Main {
     		}
 		}
     	System.out.println(barraDivisoria+"\n\nJuzgados con mas de dos sentencias: \n\n"+barraDivisoria);
+    	for (Juzgado juzgado : tineMasDosSentencias) {
+    		System.out.println(juzgado.toString()+"cantidad de causas: "+juzgado.getCausas().size());
+    		for (Causa c : juzgado.getCausas()) {
+				System.out.println("\t" + c);
+			}
+		}
+    }
+    
+private static void juzgadosSinMasDeDosCausasConSentencias(ObjectContainer db) {
+    	
+    	System.out.println(barraDivisoria+"\n\nCONSULTA: Mostrar los Juzgados con causas que tengan mas de dos sentencias\n\n"+barraDivisoria);
+    	
+    	//prototipo: todos los Juzgados del fuero civil:
+    	Query query = db.query();
+		query.constrain(Juzgado.class);
+		//Subconsulta sobre la coleccion de causas
+//		Query queryCausas = query.descend("causas").descend("sentencia");
+//		queryCausas.constrain("Culpables");
+		//Consulta por el tipo de Juzgado
+		query.descend("fuero").constrain(Juzgado.TipoFuero.civil);
+//		query.descend("causas").descend("sentencia").constrain("Culpables").not();
+		//query.descend("causas").descend("sentencia").constrain(null).not();
+		//query.descend("causas").descend("juzgado").descend("juez").descend("nombre").constrain("Loo");
+		ObjectSet<Object> juzgados = query.execute();
+		
+		System.out.println("Cantidad de Juzgados: " + juzgados.size());
+    	
+    	ArrayList<Juzgado> tineMasDosSentencias = new ArrayList<Juzgado>();
+    	int i = 0;
+
+    	for (Object juzgado : juzgados) {
+    		i = 0;
+    		System.out.println( juzgado + "Cantidad de Causas: " + ((Juzgado)juzgado).getCausas().size());
+    		/*for (Causa causa : ((Juzgado)juzgado).getCausas()) {
+				System.out.println("\t" + causa);
+			}*/
+    		if(((Juzgado)juzgado).getCausas().size()<=2)
+    		{
+				tineMasDosSentencias.add((Juzgado) juzgado);
+    		}
+		}
+    	System.out.println(barraDivisoria+"\n\nJuzgados Sin mas de dos sentencias: \n\n"+barraDivisoria);
     	for (Juzgado juzgado : tineMasDosSentencias) {
     		System.out.println(juzgado.toString()+"cantidad de causas: "+juzgado.getCausas().size());
     		for (Causa c : juzgado.getCausas()) {
