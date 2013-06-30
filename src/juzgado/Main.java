@@ -9,9 +9,7 @@ import com.db4o.ObjectSet;
 
 public class Main {
 
-	/**
-	 * @param args --
-	 */
+	static String barraDivisoria = "\n======================================================================================================================================================================================";
 	
 	public static void main(String[] args) {
 		
@@ -19,8 +17,10 @@ public class Main {
 		ArrayList<Causa> causasMasDeDosImputados;
 		try{
 			//generarInstancias(db);
+			System.out.println(barraDivisoria+"\n\nCONSULTA: Mostrar las causas con sentencia que tengan mas de 2 imputados , se deberá mostrar los datos de la causa y los datos de sus imputados:\n\n"+barraDivisoria);
 			causasMasDeDosImputados = recuperarTodasLasCausas(db);
 			mostrarCausas(causasMasDeDosImputados);
+			System.out.println(barraDivisoria+"\n\nCONSULTA: Mostrar los juzgados del fuero civil que tengan al menos una causa con sentencia y una causa sin sentencia:\n\n"+barraDivisoria);
 			consultaJuzgadosCivil(db);
 			
     	}
@@ -34,7 +34,7 @@ public class Main {
     	//prototipo: todos los Juzgados del fuero civil:
     	Juzgado protoJuzgado = new Juzgado(Juzgado.TipoFuero.civil, null, null, null);
     	ObjectSet<Object> resultJuzgado = db.queryByExample(protoJuzgado);
-    	Causa protoCausa = new Causa(null, null, null, null, null);
+    	Causa protoCausa = new Causa(protoJuzgado, null, null, null, null);
         ObjectSet<Object> resultCausas = db.queryByExample(protoCausa);
     	listResult(resultJuzgado, resultCausas);
     	
@@ -51,22 +51,21 @@ public class Main {
         	unaCausa.agregarASuJuzgado();
         }
 				
-        System.out.println("\nCantidad de Juzgados con fuero civil encontrados:"+resultJuzgado.size());
+        System.out.println("\nCantidad total de juzgados con fuero civil encontrados:"+resultJuzgado.size()+"\nJuzgados que cumplen la condicion:");
         Juzgado unJuzgado;
         while(resultJuzgado.hasNext()) {
         	unJuzgado = (Juzgado) resultJuzgado.next();
         	if (tieneCausasValidas(unJuzgado)) {
-	        	System.out.println(unJuzgado.toString()+"cantidad de causas: "+unJuzgado.getCausas().size());
-	    		for (int i = 0; i < unJuzgado.getCausas().size(); i++) {
-	    			System.out.println("\tCausas del juzgado:");
+	        	System.out.println("\n"+unJuzgado.toString());
+	        	System.out.println("\tCausas del juzgado: "+unJuzgado.getCausas().size());
+	    		for (int i = 0; i < unJuzgado.getCausas().size(); i++) 
 	    			System.out.println("\t"+unJuzgado.getCausas().get(i));
-				}
         	}
         }
     }
 
 	public static ArrayList<Causa> recuperarTodasLasCausas(ObjectContainer db) {
-    	Causa protoCausa = new Causa(null, null, null, null, null);
+		Causa protoCausa = new Causa(null, null, null, null, null);
         ObjectSet<Object> result = db.queryByExample(protoCausa);
         //filtro...
         ArrayList<Causa> causas = causasMasDeDosImputados(result);

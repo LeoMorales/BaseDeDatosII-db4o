@@ -2,8 +2,6 @@ package juzgado;
 
 import java.util.ArrayList;
 
-import juzgado.Juzgado.TipoFuero;
-
 public class Causa {
 	
 	private Juzgado juzgado;
@@ -68,8 +66,8 @@ public class Causa {
 	}
 	
 	public void agregarASuJuzgado() {
-		if (this.getJuzgado().getFuero() == TipoFuero.civil)
-			this.getJuzgado().getCausas().add(this);
+		//if (this.getJuzgado().getFuero() == TipoFuero.civil)
+		this.getJuzgado().getCausas().add(this);
 	}
 
 }

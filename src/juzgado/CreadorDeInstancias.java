@@ -9,13 +9,11 @@ import com.db4o.ObjectContainer;
 
 public class CreadorDeInstancias {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
 		ObjectContainer db= Db4oEmbedded.openFile("BDJuzgado.db4o");
 		try{
+			System.out.println("------------------------------------- INICIO CARGA -------------------------------------");
 			//generando instancias de jueces:
 			Juez juez1 = new Juez("Delfino German", 1000, "a");
 	        db.store(juez1);
@@ -48,6 +46,11 @@ public class CreadorDeInstancias {
 			Juzgado juzgado2 = new Juzgado(Juzgado.TipoFuero.comercial, juez2, "Sarmiento 1500", "Trelew");
 	        Juzgado juzgado3 = new Juzgado(Juzgado.TipoFuero.penal, juez3, "Belgrano 1500", "Trelew");
 	        Juzgado juzgado4 = new Juzgado(Juzgado.TipoFuero.civil, juez4, "Mitre 1500", "Rawson");
+			//Almacenamos los juzgados.
+	        db.store(juzgado1);
+	        db.store(juzgado2);
+	        db.store(juzgado3);
+	        db.store(juzgado4);
 	        
 	        System.out.println("\nJuzgados creados y almacenados: "+"\n"+juzgado1 +"\n"+ juzgado2 + "\n"+juzgado3+ "\n"+juzgado4);
 
@@ -79,7 +82,6 @@ public class CreadorDeInstancias {
 			imputadosC4.add(persoSamuel);
 			ArrayList<Persona> testigosC4 = new ArrayList<Persona>();
 			testigosC4.add(persoEmma);
-			//En el constructor de Causa, causa4 se agrega a la coleccion de causas de juzgado4
 			Causa causa4 = new Causa(juzgado4, 0004, imputadosC4, testigosC4, "Culpables. Pablo y Samuel mataron a Guille.Pablo autor intelectual, Samuel autor material");
 			db.store(causa4);
 
@@ -94,14 +96,7 @@ public class CreadorDeInstancias {
 			
 			System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3+ "\n"+causa4+ "\n"+causa5);
 
-			//Almacenamos los juzgados, luego de que las causas se han agregado a las colecciones de dichos juzgados:
-	        db.store(juzgado1);
-	        db.store(juzgado2);
-	        db.store(juzgado3);
-	        db.store(juzgado4);
-	        
-	        System.out.println("Al final juzgado4 tiene: "+juzgado4.getCausas().size()+" causas");
-	        
+	        System.out.println("\n----------------------------------- CARGA FINALIZADA -----------------------------------");
 	        db.commit();
 
     	}
