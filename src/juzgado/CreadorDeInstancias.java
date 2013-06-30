@@ -94,6 +94,8 @@ public class CreadorDeInstancias {
 			Causa causa5 = new Causa(juzgado4, 0005, imputadosC5, testigosC5, null);
 			db.store(causa5);
 			
+			storeMyJuzgado(db);
+			
 			System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3+ "\n"+causa4+ "\n"+causa5);
 
 	        System.out.println("\n----------------------------------- CARGA FINALIZADA -----------------------------------");
@@ -116,6 +118,35 @@ public class CreadorDeInstancias {
 	     }
 	     return fecha;
 	}
-
+	
+	private static void storeMyJuzgado(ObjectContainer db) {
+		// TODO Auto-generated method stub
+		Juez myJuez = new Juez("Loo", 123, "Psss");
+		
+		Juzgado myJuzgado = new Juzgado(juzgado.Juzgado.TipoFuero.civil, myJuez, "Pepe 50", "Rawson");
+		
+		Persona myPersona = new Persona("Juanciot", "Perez", 123456, nuevaFechaDesdeString("1989/10/8"), "masculino");
+		
+		ArrayList<Persona> myImputados1 = new ArrayList<Persona>();
+		myImputados1.add(new Persona("Pepe", "pepon", 3333333, nuevaFechaDesdeString("1989/10/02"), "Masculino"));
+		myImputados1.add(new Persona("Pepita", "pepon", 123123, nuevaFechaDesdeString("1989/4/02"), "Femenino"));
+		ArrayList<Persona> testigos1 = new ArrayList<Persona>();
+		testigos1.add(myPersona);
+		Causa causa1 = new Causa(myJuzgado, 13, myImputados1, testigos1, "Culpables");
+		db.store(causa1);
+		
+		ArrayList<Persona> myImputados2 = new ArrayList<Persona>();
+		myImputados2.add(new Persona("Pepe", "pepon", 3333333, nuevaFechaDesdeString("1989/10/02"), "Masculino"));
+		myImputados2.add(new Persona("Pepita", "pepon", 123123, nuevaFechaDesdeString("1989/4/02"), "Femenino"));
+		ArrayList<Persona> testigos2 = new ArrayList<Persona>();
+		testigos2.add(myPersona);
+		Causa causa2 = new Causa(myJuzgado, 14, myImputados2, testigos2, "Culpables");
+		db.store(causa2);
+		
+		Causa causa3 = new Causa(myJuzgado, 15, myImputados2, testigos2, "Culpableas");
+		db.store(causa3);
+		
+		db.store(myJuzgado);
+	}
 
 }
