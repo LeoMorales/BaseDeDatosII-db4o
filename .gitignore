@@ -1,16 +1,17 @@
-*.class
-*.db4o
-
-# Packages
-bin
-var
-lib
-
-#Translations
-*.mo
-
-#Mr Developer
-.mr.developer.cfg
+*.pydevproject
 .project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
 .classpath
-.settings
+.settings/
+.loadpath
+
+# PDT-specific
+.buildpath
