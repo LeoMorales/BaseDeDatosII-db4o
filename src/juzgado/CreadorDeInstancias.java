@@ -98,12 +98,11 @@ public class CreadorDeInstancias {
 	        db.store(juzgado1);
 	        db.store(juzgado2);
 	        db.store(juzgado3);
-	        //por las dudas agregamos causas explicitamente y no a traves del constructor de Causa:
-	        juzgado4.getCausas().add(causa4);
-	        juzgado4.getCausas().add(causa5);
 	        db.store(juzgado4);
 	        
 	        System.out.println("Al final juzgado4 tiene: "+juzgado4.getCausas().size()+" causas");
+	        
+	        db.commit();
 
     	}
     	finally{

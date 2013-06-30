@@ -2,6 +2,8 @@ package juzgado;
 
 import java.util.ArrayList;
 
+import juzgado.Juzgado.TipoFuero;
+
 public class Causa {
 	
 	private Juzgado juzgado;
@@ -20,11 +22,12 @@ public class Causa {
 		//TODO: Es esto correcto?
 		//Agregarse ella misma a la coleccion de Causas del juzgado. Existe una doble referncia. Motivo: Facilita la consulta nro2.
 		//Aclaracion: juzgado puede ser null si se trata de un QBE.
-		if (juzgado != null) {
+		/*if (juzgado != null) {
 			if(this.getJuzgado().getCausas().add(this)==true)
 				System.out.println("Soy Juzgado:"+this.getJuzgado()+"agregue causa: "+ this.toString()+"tengo en total: "+this.getJuzgado().getCausas().size()+" causa/s!");
 			
-		}		
+		}
+		*/		
 	}
 
 	//Getters and Setters:
@@ -62,6 +65,11 @@ public class Causa {
 	@Override
 	public String toString() {
 		return  "Causa { expediente: "+this.getNroExpediente()+" juzgado: ["+this.getJuzgado()+"] sentencia: "+this.getSentencia() + " }";
+	}
+	
+	public void agregarASuJuzgado() {
+		if (this.getJuzgado().getFuero() == TipoFuero.civil)
+			this.getJuzgado().getCausas().add(this);
 	}
 
 }

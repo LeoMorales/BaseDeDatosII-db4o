@@ -33,8 +33,10 @@ public class Main {
     private static void consultaJuzgadosCivil(ObjectContainer db) {
     	//prototipo: todos los Juzgados del fuero civil:
     	Juzgado protoJuzgado = new Juzgado(Juzgado.TipoFuero.civil, null, null, null);
-    	ObjectSet<Object> result = db.queryByExample(protoJuzgado);
-    	listResult(result);
+    	ObjectSet<Object> resultJuzgado = db.queryByExample(protoJuzgado);
+    	Causa protoCausa = new Causa(null, null, null, null, null);
+        ObjectSet<Object> resultCausas = db.queryByExample(protoCausa);
+    	listResult(resultJuzgado, resultCausas);
     	
     }    
 
@@ -42,18 +44,24 @@ public class Main {
 		return unJuzgado.poseeCausaConSentencia() && unJuzgado.poseeCausaSinSentencia();
 	}
 
-	public static void listResult(ObjectSet<Object> result){
-        System.out.println("\nCantidad de Juzgados con fuero civil encontrados:"+result.size());
+	public static void listResult(ObjectSet<Object> resultJuzgado, ObjectSet<Object> resultCausas){
+		Causa unaCausa;
+        while(resultCausas.hasNext()) {
+        	unaCausa = (Causa) resultCausas.next();
+        	unaCausa.agregarASuJuzgado();
+        }
+				
+        System.out.println("\nCantidad de Juzgados con fuero civil encontrados:"+resultJuzgado.size());
         Juzgado unJuzgado;
-        while(result.hasNext()) {
-        	unJuzgado = (Juzgado) result.next();
-        	//if (tieneCausasValidas(unJuzgado)) {
-        	System.out.println(unJuzgado.toString()+"cantidad de causas: "+unJuzgado.getCausas().size());
-    		for (int i = 0; i < unJuzgado.getCausas().size(); i++) {
-    			System.out.println("\tCausas del juzgado:");
-    			System.out.println("\t"+unJuzgado.getCausas().get(i));
-			}
-        	//}
+        while(resultJuzgado.hasNext()) {
+        	unJuzgado = (Juzgado) resultJuzgado.next();
+        	if (tieneCausasValidas(unJuzgado)) {
+	        	System.out.println(unJuzgado.toString()+"cantidad de causas: "+unJuzgado.getCausas().size());
+	    		for (int i = 0; i < unJuzgado.getCausas().size(); i++) {
+	    			System.out.println("\tCausas del juzgado:");
+	    			System.out.println("\t"+unJuzgado.getCausas().get(i));
+				}
+        	}
         }
     }
 
