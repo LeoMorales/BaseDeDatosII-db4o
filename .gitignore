@@ -2,6 +2,9 @@
 .project
 .metadata
 .class
+.db4o
+*.class
+*.db4o
 bin/**
 tmp/**
 tmp/**/*
