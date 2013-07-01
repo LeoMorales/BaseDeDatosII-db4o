@@ -37,7 +37,11 @@ public class Main {
 			juzgadosSinMasDeUnaCausasConSentenciasByNQ(db);
 			
 			masDeDosImputadosSODA(db);
+<<<<<<< HEAD
+
+=======
 			conSentenciaSinSentenciaNativa(db);
+>>>>>>> df83edad6129d7bd734020efa591604e868c7310
     	}
     	finally{
     		db.close();
@@ -169,8 +173,6 @@ public class Main {
 		
 		ObjectSet<Juzgado> juzgados = query.execute();
 		
-		System.out.println("Cantidad de Juzgados: " + juzgados.size());
-		
 		imprimirJuzgados(juzgados);
 
     }
@@ -190,8 +192,6 @@ public class Main {
 		causasQuery.descend("sentencia").constrain(null);
 		
 		ObjectSet<Juzgado> juzgados = query.execute();
-		
-		System.out.println("Cantidad de Juzgados: " + juzgados.size());
 
 		imprimirJuzgados(juzgados);
 
@@ -244,12 +244,21 @@ public class Main {
 	}
 	
 	private static void imprimirJuzgados(List<Juzgado> juzgados) {
+		System.out.println("Cantidad de Juzgados: " + juzgados.size());
 		for (Juzgado j : juzgados) {
 			System.out.println(j.toString()+"cantidad de causas: "+j.getCausas().size());
     		for (Causa c : j.getCausas()) {
 				System.out.println("\t" + c);
 			}
 		}
+	}
+	
+	private static void consultaQBE(ObjectContainer db) {
+		Juzgado protoJuzgado = new Juzgado(Juzgado.TipoFuero.civil, null, null, null);
+    	List<Juzgado> resultJuzgado = db.queryByExample(protoJuzgado);
+    	Causa protoCausa = new Causa(protoJuzgado, null, null, null, null);
+        List<Causa> resultCausas = db.queryByExample(protoCausa);
+
 	}
 	
 }

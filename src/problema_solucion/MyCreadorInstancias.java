@@ -3,6 +3,7 @@ package problema_solucion;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import tuto_db4o.MyMarca;
 
@@ -11,6 +12,7 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
+import com.sun.org.apache.regexp.internal.RE;
 
 @SuppressWarnings("deprecation")
 public class MyCreadorInstancias {
@@ -148,4 +150,5 @@ public class MyCreadorInstancias {
 	     }
 	     return fecha;
 	}
+	
 }
