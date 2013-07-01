@@ -1,0 +1,20 @@
+*.pydevproject
+.project
+.metadata
+.class
+bin/**
+tmp/**
+tmp/**/*
+bin
+lib
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# PDT-specific
+.buildpath
