@@ -26,9 +26,10 @@ public class Main {
 			System.out.println(barraDivisoria+"\n\nCONSULTA: Mostrar los juzgados del fuero civil que tengan al menos una causa con sentencia y una causa sin sentencia:\n\n"+barraDivisoria);
 			consultaJuzgadosCivil(db);
 			
-			juzgadosMasDeDosCausasConSentencias(db);
-			juzgadosUnaCausaSinSentencia(db);
-			juzgadosSinMasDeDosCausasConSentenciasByNQ(db);
+//			juzgadosUnaCausasConSentenciasSODA(db);
+			juzgadosUnaCausaSinSentenciaSODA(db);
+//			juzgadosSinMasDeDosCausasConSentenciasByNQ(db);
+//			juzgadosConMasDeDosCausasConSentenciasByNQ(db);
     	}
     	finally{
     		db.close();
@@ -105,7 +106,7 @@ public class Main {
         }
     }
 	
-    private static void juzgadosMasDeDosCausasConSentencias(ObjectContainer db) {
+    private static void juzgadosUnaCausasConSentenciasSODA(ObjectContainer db) {
     	/* SODA Querie example */
     	System.out.println(barraDivisoria+"\n\nCONSULTA BY SODA: Mostrar los Juzgados que tengan al menos una causa con sentencia\n\n"+barraDivisoria);
     	
@@ -152,7 +153,7 @@ public class Main {
 		}
     }
     
-    private static void juzgadosUnaCausaSinSentencia(ObjectContainer db) {
+    private static void juzgadosUnaCausaSinSentenciaSODA(ObjectContainer db) {
     	/* SODA Querie example */
     	System.out.println(barraDivisoria+"\n\nCONSULTA BY SODA: Mostrar los juzgados del fuero civil que tengan al menos una causa sin sentencia\n\n"+barraDivisoria);
     	
@@ -160,8 +161,10 @@ public class Main {
     	Query query = db.query();
 		query.constrain(Juzgado.class);
 		//Subconsulta sobre la coleccion de causas
-//		Query queryCausas = query.descend("causas").descend("sentencia");
-//		queryCausas.constrain("Culpables");
+//		Query querySentenciaCausa = query.descend("causas");
+//		querySentenciaCausa.constrain(Causa.class);
+//		querySentenciaCausa.descend("sentencia");
+//		querySentenciaCausa.constrain(null);
 		//Consulta por el tipo de Juzgado
 		query.descend("fuero").constrain(Juzgado.TipoFuero.civil);
 //		query.descend("causas").descend("sentencia").constrain("Culpables").not();
@@ -193,7 +196,7 @@ public class Main {
 		}
     }
 
-	private static void juzgadosSinMasDeDosCausasConSentenciasByNQ(ObjectContainer db) {
+	private static void juzgadosSinMasDeUnaCausasConSentenciasByNQ(ObjectContainer db) {
 		
     	System.out.println(barraDivisoria+"\n\nCONSULTA BY SODA: Mostrar los juzgados del fuero civil que tengan al menos una causa sin sentencia\n\n"+barraDivisoria);
 		
@@ -210,6 +213,33 @@ public class Main {
 					}
 				}
 				return (j.getFuero() == juzgado.Juzgado.TipoFuero.civil) && tieneCausaSinSentencia;
+			}
+			});
+		for (Juzgado j : juzgados) {
+			System.out.println(j.toString()+"cantidad de causas: "+j.getCausas().size());
+    		for (Causa c : j.getCausas()) {
+				System.out.println("\t" + c);
+			}
+		}
+	}
+	
+	private static void juzgadosConMasUnaCausasConSentenciasByNQ(ObjectContainer db) {
+		
+    	System.out.println(barraDivisoria+"\n\nCONSULTA BY SODA: Mostrar los juzgados del fuero civil que tengan al menos una causa con sentencia\n\n"+barraDivisoria);
+		
+		List<Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
+			@Override
+			public boolean match(Juzgado j) {
+				// TODO Auto-generated method stub
+				boolean tieneCausaConSentencia = false;
+				for (Causa c : j.getCausas()) {
+					if(c.getSentencia()!=null)
+					{
+						tieneCausaConSentencia = true;
+						break;
+					}
+				}
+				return (j.getFuero() == juzgado.Juzgado.TipoFuero.civil) && tieneCausaConSentencia;
 			}
 			});
 		for (Juzgado j : juzgados) {
