@@ -125,8 +125,8 @@ public class Main {
 //		juezQuery.constrain(Juez.class);
 //		juezQuery.descend("nombre").constrain("Loo").like();
 		Query causasQuery = query.descend("causas");
-		causasQuery.descend("sentencia").constrain("Culpables").like();
-//		query.descend("juez").descend("nombre").constrain("Loo");
+		causasQuery.constrain(Causa.class);
+		causasQuery.descend("nroExpediente").constrain(14);
 		
 		ObjectSet<Object> juzgados = query.execute();
 		
