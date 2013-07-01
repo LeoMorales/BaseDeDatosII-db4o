@@ -143,7 +143,7 @@ public class CreadorDeInstancias {
 		Causa causa2 = new Causa(myJuzgado, 14, myImputados2, testigos2, "Culpables");
 		db.store(causa2);
 		
-		Causa causa3 = new Causa(myJuzgado, 15, myImputados2, testigos2, "Culpableas");
+		Causa causa3 = new Causa(myJuzgado, 15, myImputados2, testigos2, "Culpables");
 		db.store(causa3);
 		
 		db.store(myJuzgado);

@@ -4,6 +4,8 @@
 bin/**
 tmp/**
 tmp/**/*
+bin
+lib
 *.tmp
 *.bak
 *.swp
