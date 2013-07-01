@@ -108,7 +108,6 @@ public class CreadorDeInstancias {
 			Causa causa5 = new Causa(juzgado4, 0005, imputadosC5, testigosC5, null);
 			db.store(causa5);
 			
-<<<<<<< HEAD
 			//Causa6
 			ArrayList<Persona> imputadosC6 = new ArrayList<Persona>();
 			imputadosC6.add(persoPablo);
@@ -125,11 +124,11 @@ public class CreadorDeInstancias {
 			Causa causa7 = new Causa(juzgado5, 0007, imputadosC7, testigosC7, "Inocente");
 			db.store(causa7);
 			System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3+ "\n"+causa4+ "\n"+causa5+ "\n"+causa6+ "\n"+causa7);
-=======
+
 			storeMyJuzgado(db);
 			
 			System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3+ "\n"+causa4+ "\n"+causa5);
->>>>>>> bf4872753e75549a454dd7abc9ae8744f8390b9a
+
 
 	        System.out.println("\n----------------------------------- CARGA FINALIZADA -----------------------------------");
 	        db.commit();

@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import tuto_db4o.Car;
-import tuto_db4o.SensorReadout;
-
 import com.db4o.Db4o;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -35,6 +32,7 @@ public class Main {
 //			juzgadosUnaCausaSinSentenciaSODA(db);
 //			juzgadosSinMasDeDosCausasConSentenciasByNQ(db);
 //			juzgadosConMasDeDosCausasConSentenciasByNQ(db);
+			masDeDosImputadosSODA(db);
     	}
     	finally{
     		db.close();
@@ -42,14 +40,30 @@ public class Main {
 
 	}
 	
-    private static void consultaJuzgadosCivil(ObjectContainer db) {
+    private static void masDeDosImputadosSODA(ObjectContainer db) {
+        //Consulta SODA:
+        Query query = db.query();
+        query.constrain (Causa.class);
+        query.descend("cantImputados").constrain(1).greater();
+        ObjectSet<Object>  result = query.execute();
+
+        System.out.println(barraDivisoria+"\nMostrar las causas con sentencia que tengan mas de 2 imputados, se deberá mostrar los datos de la causa y los datos de sus impoutados [consulta SODA]:\n"+barraDivisoria);
+        listarResult(result);
+	}
+    public static void listarResult(ObjectSet<Object> result){
+        System.out.println(result.size());
+        while(result.hasNext()) {
+            System.out.println(result.next());
+        }
+    }
+
+	private static void consultaJuzgadosCivil(ObjectContainer db) {
     	//prototipo: todos los Juzgados del fuero civil:
     	Juzgado protoJuzgado = new Juzgado(Juzgado.TipoFuero.civil, null, null, null);
     	ObjectSet<Object> resultJuzgado = db.queryByExample(protoJuzgado);
     	Causa protoCausa = new Causa(protoJuzgado, null, null, null, null);
         ObjectSet<Object> resultCausas = db.queryByExample(protoCausa);
     	listResult(resultJuzgado, resultCausas);
-    	
     }    
 
     private static boolean tieneCausasValidas(Juzgado unJuzgado) {
