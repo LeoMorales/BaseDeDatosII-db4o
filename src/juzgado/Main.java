@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import tuto_db4o.Pilot;
+
 import com.db4o.Db4o;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -35,7 +37,11 @@ public class Main {
 			juzgadosSinMasDeUnaCausasConSentenciasByNQ(db);
 			
 			masDeDosImputadosSODA(db);
+<<<<<<< HEAD
 
+=======
+			conSentenciaSinSentenciaNativa(db);
+>>>>>>> df83edad6129d7bd734020efa591604e868c7310
     	}
     	finally{
     		db.close();
@@ -43,7 +49,28 @@ public class Main {
 
 	}
 	
-    private static void masDeDosImputadosSODA(ObjectContainer db) {
+    private static void conSentenciaSinSentenciaNativa(ObjectContainer db) {
+    	//Consulta nativa:
+        List<Juzgado> juzgados = db.query ( new Predicate<Juzgado>  () {
+
+            public boolean match (Juzgado juzgado) {
+            	//return juzgado.poseeCausaConSentencia() && juzgado.poseeCausaSinSentencia();
+            	return juzgado.getFuero() == Juzgado.TipoFuero.civil && juzgado.poseeCausaConSentencia() && juzgado.poseeCausaSinSentencia();
+            }
+
+        } );
+        System.out.println(barraDivisoria+"\nMostrar los juzgados del fuero civil que tengan al menos una causa con sentencia y una causa sin sentencia [Recuperado con consulta nativa]: \n"+barraDivisoria);
+        listarResult(juzgados);
+    }
+    public static void listarResult(List<Juzgado> juzgados ){
+        System.out.println(juzgados.size());
+        Iterator<Juzgado> iter = juzgados.iterator();
+        while(iter.hasNext()) {
+            System.out.println(iter.next());
+        }
+    }
+
+	private static void masDeDosImputadosSODA(ObjectContainer db) {
         //Consulta SODA:
         Query query = db.query();
         query.constrain (Causa.class);
