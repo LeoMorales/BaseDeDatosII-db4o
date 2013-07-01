@@ -143,16 +143,11 @@ public class Main {
 		causasQuery.constrain(Causa.class);
 		causasQuery.descend("sentencia").constrain(null).not();
 		
-		ObjectSet<Object> juzgados = query.execute();
+		ObjectSet<Juzgado> juzgados = query.execute();
 		
 		System.out.println("Cantidad de Juzgados: " + juzgados.size());
 		
-    	for (Object j : juzgados) {
-			System.out.println(j);
-			for (Causa c : ((Juzgado)j).getCausas()) {
-				System.out.println("\t" + c);
-			}
-		}
+		imprimirJuzgados(juzgados);
 
     }
     
@@ -170,16 +165,11 @@ public class Main {
 		causasQuery.constrain(Causa.class);
 		causasQuery.descend("sentencia").constrain(null);
 		
-		ObjectSet<Object> juzgados = query.execute();
+		ObjectSet<Juzgado> juzgados = query.execute();
 		
 		System.out.println("Cantidad de Juzgados: " + juzgados.size());
 
-		for (Object j : juzgados) {
-			System.out.println(j);
-			for (Causa c : ((Juzgado)j).getCausas()) {
-				System.out.println("\t" + c);
-			}
-		}
+		imprimirJuzgados(juzgados);
 
     }
 
@@ -202,13 +192,8 @@ public class Main {
 				return (j.getFuero() == juzgado.Juzgado.TipoFuero.civil) && tieneCausaSinSentencia;
 			}
 			});
+		imprimirJuzgados(juzgados);
 		
-		for (Juzgado j : juzgados) {
-			System.out.println(j.toString()+"cantidad de causas: "+j.getCausas().size());
-    		for (Causa c : j.getCausas()) {
-				System.out.println("\t" + c);
-			}
-		}
 	}
 	
 	private static void juzgadosConMasUnaCausasConSentenciasByNQ(ObjectContainer db) {
@@ -230,12 +215,17 @@ public class Main {
 				return (j.getFuero() == juzgado.Juzgado.TipoFuero.civil) && tieneCausaConSentencia;
 			}
 			});
+		imprimirJuzgados(juzgados);
+		
+	}
+	
+	private static void imprimirJuzgados(List<Juzgado> juzgados) {
 		for (Juzgado j : juzgados) {
 			System.out.println(j.toString()+"cantidad de causas: "+j.getCausas().size());
     		for (Causa c : j.getCausas()) {
 				System.out.println("\t" + c);
 			}
 		}
-		
 	}
+	
 }
