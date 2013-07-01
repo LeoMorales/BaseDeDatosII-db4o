@@ -29,9 +29,11 @@ public class Main {
 			consultaJuzgadosCivil(db);
 			
 			juzgadosUnaCausasConSentenciasSODA(db);
-//			juzgadosUnaCausaSinSentenciaSODA(db);
-//			juzgadosSinMasDeDosCausasConSentenciasByNQ(db);
-//			juzgadosConMasDeDosCausasConSentenciasByNQ(db);
+			juzgadosUnaCausaSinSentenciaSODA(db);
+			
+			juzgadosConMasUnaCausasConSentenciasByNQ(db);
+			juzgadosSinMasDeUnaCausasConSentenciasByNQ(db);
+			
 			masDeDosImputadosSODA(db);
     	}
     	finally{
@@ -132,46 +134,26 @@ public class Main {
     	//prototipo: todos los Juzgados del fuero civil:
     	Query query = db.query();
 		query.constrain(Juzgado.class);
+		
 		//Consulta por el tipo de Juzgado
 		query.descend("fuero").constrain(Juzgado.TipoFuero.civil);
+		
 		//Subconsulta sobre la coleccion de causas
-//		Query juezQuery = query.descend("juez");
-//		juezQuery.constrain(Juez.class);
-//		juezQuery.descend("nombre").constrain("Loo").like();
 		Query causasQuery = query.descend("causas");
 		causasQuery.constrain(Causa.class);
-		causasQuery.descend("nroExpediente").constrain(14);
+		causasQuery.descend("sentencia").constrain(null).not();
 		
 		ObjectSet<Object> juzgados = query.execute();
 		
 		System.out.println("Cantidad de Juzgados: " + juzgados.size());
+		
     	for (Object j : juzgados) {
 			System.out.println(j);
 			for (Causa c : ((Juzgado)j).getCausas()) {
 				System.out.println("\t" + c);
 			}
 		}
-//    	ArrayList<Juzgado> tieneCausaConSentencia = new ArrayList<Juzgado>();
-//    	int i = 0;
-//
-//    	for (Object juzgado : juzgados) {
-//    		System.out.println( juzgado + "Cantidad de Causas: " + ((Juzgado)juzgado).getCausas().size());
-//
-//				for (Causa causa : ((Juzgado)juzgado).getCausas()) {
-//					if(causa.getSentencia()!=null)
-//					{
-//						tieneCausaConSentencia.add((Juzgado) juzgado);
-//						break;
-//					}
-//				}
-//		}
-//    	System.out.println(barraDivisoria+"\n\nDevolucion de la Consulta: \n\n"+barraDivisoria);
-//    	for (Juzgado juzgado : tieneCausaConSentencia) {
-//    		System.out.println(juzgado.toString()+" cantidad de causas: "+juzgado.getCausas().size());
-//    		for (Causa c : juzgado.getCausas()) {
-//				System.out.println("\t" + c);
-//			}
-//		}
+
     }
     
     private static void juzgadosUnaCausaSinSentenciaSODA(ObjectContainer db) {
@@ -181,45 +163,29 @@ public class Main {
     	//prototipo: todos los Juzgados del fuero civil:
     	Query query = db.query();
 		query.constrain(Juzgado.class);
-		//Subconsulta sobre la coleccion de causas
-//		Query querySentenciaCausa = query.descend("causas");
-//		querySentenciaCausa.constrain(Causa.class);
-//		querySentenciaCausa.descend("sentencia");
-//		querySentenciaCausa.constrain(null);
-		//Consulta por el tipo de Juzgado
 		query.descend("fuero").constrain(Juzgado.TipoFuero.civil);
-//		query.descend("causas").descend("sentencia").constrain("Culpables").not();
-		//query.descend("causas").descend("sentencia").constrain(null).not();
-		//query.descend("causas").descend("juzgado").descend("juez").descend("nombre").constrain("Loo");
+		
+		//Subconsulta sobre la coleccion de causas
+		Query causasQuery = query.descend("causas");
+		causasQuery.constrain(Causa.class);
+		causasQuery.descend("sentencia").constrain(null);
+		
 		ObjectSet<Object> juzgados = query.execute();
 		
 		System.out.println("Cantidad de Juzgados: " + juzgados.size());
-    	
-    	ArrayList<Juzgado> tineCausaSinSentencia = new ArrayList<Juzgado>();
-    	int i = 0;
 
-    	for (Object juzgado : juzgados) {
-    		i = 0;
-    		System.out.println( juzgado + "Cantidad de Causas: " + ((Juzgado)juzgado).getCausas().size());
-    		for (Causa c : ((Juzgado)juzgado).getCausas()) {
-				if(c.getSentencia()==null)
-				{
-					tineCausaSinSentencia.add(((Juzgado)juzgado));
-				}
-			}
-		}
-    	System.out.println(barraDivisoria+"\n\nDevolucion de la Consulta: \n\n"+barraDivisoria);
-    	for (Juzgado juzgado : tineCausaSinSentencia) {
-    		System.out.println(juzgado.toString()+"cantidad de causas: "+juzgado.getCausas().size());
-    		for (Causa c : juzgado.getCausas()) {
+		for (Object j : juzgados) {
+			System.out.println(j);
+			for (Causa c : ((Juzgado)j).getCausas()) {
 				System.out.println("\t" + c);
 			}
 		}
+
     }
 
 	private static void juzgadosSinMasDeUnaCausasConSentenciasByNQ(ObjectContainer db) {
 		
-    	System.out.println(barraDivisoria+"\n\nCONSULTA BY SODA: Mostrar los juzgados del fuero civil que tengan al menos una causa sin sentencia\n\n"+barraDivisoria);
+    	System.out.println(barraDivisoria+"\n\nCONSULTA BY NATIVE QUERIE: Mostrar los juzgados del fuero civil que tengan al menos una causa sin sentencia\n\n"+barraDivisoria);
 		
 		List<Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
 			@Override
@@ -236,6 +202,7 @@ public class Main {
 				return (j.getFuero() == juzgado.Juzgado.TipoFuero.civil) && tieneCausaSinSentencia;
 			}
 			});
+		
 		for (Juzgado j : juzgados) {
 			System.out.println(j.toString()+"cantidad de causas: "+j.getCausas().size());
     		for (Causa c : j.getCausas()) {
@@ -246,7 +213,7 @@ public class Main {
 	
 	private static void juzgadosConMasUnaCausasConSentenciasByNQ(ObjectContainer db) {
 		
-    	System.out.println(barraDivisoria+"\n\nCONSULTA BY SODA: Mostrar los juzgados del fuero civil que tengan al menos una causa con sentencia\n\n"+barraDivisoria);
+    	System.out.println(barraDivisoria+"\n\nCONSULTA BY NATIVE QUERIE: Mostrar los juzgados del fuero civil que tengan al menos una causa con sentencia\n\n"+barraDivisoria);
 		
 		List<Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
 			@Override
@@ -269,5 +236,6 @@ public class Main {
 				System.out.println("\t" + c);
 			}
 		}
+		
 	}
 }
