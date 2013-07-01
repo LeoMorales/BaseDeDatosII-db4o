@@ -3,6 +3,8 @@ package juzgado;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import juzgado.Juzgado.TipoFuero;
+
 public class Juzgado {
 
 	enum TipoFuero{civil, comercial, laboral, penal};
@@ -25,6 +27,13 @@ public class Juzgado {
 	}
 
 	
+	public Juzgado(TipoFuero fuero, Juez juez, String domicilio, String localidad, ArrayList<Causa> causas) {
+		// TODO Auto-generated constructor stub
+		this(fuero, juez, domicilio, localidad);
+		this.setCausas(causas);
+	}
+
+
 	//Getters and Setters:
 	public TipoFuero getFuero() {
 		return fuero;
