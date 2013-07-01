@@ -29,7 +29,7 @@ public class Causa {
 		}
 		*/
 		if (imputados != null)
-			this.cantImputados = this.getImputados().size();
+			this.setCantImputados(this.getImputados().size());
 	}
 
 	//Getters and Setters:
@@ -72,6 +72,14 @@ public class Causa {
 	public void agregarASuJuzgado() {
 		//if (this.getJuzgado().getFuero() == TipoFuero.civil)
 		this.getJuzgado().getCausas().add(this);
+	}
+
+	public Integer getCantImputados() {
+		return cantImputados;
+	}
+
+	public void setCantImputados(Integer cantImputados) {
+		this.cantImputados = cantImputados;
 	}
 	
 	
