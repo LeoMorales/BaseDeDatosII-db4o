@@ -39,20 +39,34 @@ public class CreadorDeInstancias {
 			Persona persoEmma = new Persona("Emmanuel", "Tominguez", 30888777, nuevaFechaDesdeString("1987/8/2"), "Masculino");
 			db.store(persoEmma);
 	        
-			System.out.println("\nPersonas creadas y almacenadas: "+"\n"+persoGuille +"\n"+ persoPablo+ "\n"+persoSamuel+ "\n"+persoEmma);
+			Persona persoFurch = new Persona("Walter", "Furch", 18888777, nuevaFechaDesdeString("1970/8/2"), "Masculino");
+			db.store(persoFurch);
+			
+			Persona persoBenedetto = new Persona("Guillermo", "Benedetto", 20888777, nuevaFechaDesdeString("1987/8/2"), "Masculino");
+			db.store(persoBenedetto);
+			
+			Persona persoCarbonero = new Persona("Mario", "Carbonero", 25888777, nuevaFechaDesdeString("1982/8/2"), "Masculino");
+			db.store(persoCarbonero);
+			
+			Persona persoCampestrini = new Persona("Matias", "Campestrini", 23888777, nuevaFechaDesdeString("1985/8/2"), "Masculino");
+			db.store(persoCampestrini);
+			
+			System.out.println("\nPersonas creadas y almacenadas: "+"\n"+persoGuille +"\n"+ persoPablo+ "\n"+persoSamuel+ "\n"+persoEmma+ "\n"+persoFurch+ "\n"+persoBenedetto+ "\n"+persoCarbonero+ "\n"+persoCampestrini);
 
 	        //generando instancias de juzgados:
 			Juzgado juzgado1 = new Juzgado(Juzgado.TipoFuero.civil, juez1, "San Martin 1500", "Trelew");
 			Juzgado juzgado2 = new Juzgado(Juzgado.TipoFuero.comercial, juez2, "Sarmiento 1500", "Trelew");
 	        Juzgado juzgado3 = new Juzgado(Juzgado.TipoFuero.penal, juez3, "Belgrano 1500", "Trelew");
 	        Juzgado juzgado4 = new Juzgado(Juzgado.TipoFuero.civil, juez4, "Mitre 1500", "Rawson");
+	        Juzgado juzgado5 = new Juzgado(Juzgado.TipoFuero.civil, juez2, "Roca 1500", "Madryn");
 			//Almacenamos los juzgados.
 	        db.store(juzgado1);
 	        db.store(juzgado2);
 	        db.store(juzgado3);
 	        db.store(juzgado4);
+	        db.store(juzgado5);
 	        
-	        System.out.println("\nJuzgados creados y almacenados: "+"\n"+juzgado1 +"\n"+ juzgado2 + "\n"+juzgado3+ "\n"+juzgado4);
+	        System.out.println("\nJuzgados creados y almacenados: "+"\n"+juzgado1 +"\n"+ juzgado2 + "\n"+juzgado3+ "\n"+juzgado4+ "\n"+juzgado5);
 
 			//generando instancias de causas:
 	        //Causa1
@@ -94,7 +108,22 @@ public class CreadorDeInstancias {
 			Causa causa5 = new Causa(juzgado4, 0005, imputadosC5, testigosC5, null);
 			db.store(causa5);
 			
-			System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3+ "\n"+causa4+ "\n"+causa5);
+			//Causa6
+			ArrayList<Persona> imputadosC6 = new ArrayList<Persona>();
+			imputadosC6.add(persoPablo);
+			imputadosC6.add(persoCarbonero);
+			ArrayList<Persona> testigosC6 = new ArrayList<Persona>();
+			testigosC6.add(persoCampestrini);
+			Causa causa6 = new Causa(juzgado5, 0006, imputadosC6, testigosC6, null);
+			db.store(causa6);
+			//Causa7
+			ArrayList<Persona> imputadosC7 = new ArrayList<Persona>();
+			imputadosC7.add(persoFurch);
+			ArrayList<Persona> testigosC7 = new ArrayList<Persona>();
+			testigosC7.add(persoBenedetto);
+			Causa causa7 = new Causa(juzgado5, 0007, imputadosC7, testigosC7, "Inocente");
+			db.store(causa7);
+			System.out.println("\nCausas creadas y almacenadas: "+"\n"+causa1 +"\n"+ causa2+ "\n"+causa3+ "\n"+causa4+ "\n"+causa5+ "\n"+causa6+ "\n"+causa7);
 
 	        System.out.println("\n----------------------------------- CARGA FINALIZADA -----------------------------------");
 	        db.commit();
