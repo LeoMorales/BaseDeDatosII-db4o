@@ -9,6 +9,8 @@ public class Causa {
 	private ArrayList<Persona> imputados;
 	private ArrayList<Persona> testigos;
 	private String sentencia;
+	//Para query SODA:
+	private Integer cantImputados;
 	
 	//Constructor:
 	public Causa(Juzgado juzgado, Integer nroExpediente, ArrayList<Persona> imputados, ArrayList<Persona> testigos, String sentencia) {
@@ -25,7 +27,9 @@ public class Causa {
 				System.out.println("Soy Juzgado:"+this.getJuzgado()+"agregue causa: "+ this.toString()+"tengo en total: "+this.getJuzgado().getCausas().size()+" causa/s!");
 			
 		}
-		*/		
+		*/
+		if (imputados != null)
+			this.cantImputados = this.getImputados().size();
 	}
 
 	//Getters and Setters:
@@ -69,5 +73,7 @@ public class Causa {
 		//if (this.getJuzgado().getFuero() == TipoFuero.civil)
 		this.getJuzgado().getCausas().add(this);
 	}
+	
+	
 
 }
